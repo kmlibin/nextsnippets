@@ -10,11 +10,12 @@ interface SnippetShowPageProps {
 }
 
 export default async function SnippetShowPage(props: SnippetShowPageProps) {
+    // await new Promise ((r) => setTimeout(r, 2000)) //checking to make sure load works
   const snippet = await db.snippet.findFirst({
     //turn into number, because stored in db as number
     where: { id: parseInt(props.params.id) },
   });
-  console.log(snippet);
+//   console.log(snippet);
   if (!snippet) {
     return notFound();
   }
