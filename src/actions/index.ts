@@ -3,16 +3,16 @@ import { redirect } from "next/navigation";
 import { db } from "@/app/db";
 import { revalidatePath } from "next/cache";
 
-//edit snippet..you don't need to revalidate, you're only editing the code, which you can't see on the homepage. our home page
-//is having the caching issue where new snippets don't appear/disappear
+//edit snippet
 export async function editSnippet(id: number, code: string) {
   await db.snippet.update({
     where: { id },
     //what new info we want to assign to the snippet we found
     data: { code },
   });
-
+  //we've cached each existing /snippets/id page, so now need to dump the cache and refresh once we've edited
   //redirect user to show page (snippets/[id])
+  revalidatePath(`/snippets/${id}`);
   redirect(`/snippets/${id}`);
 }
 
