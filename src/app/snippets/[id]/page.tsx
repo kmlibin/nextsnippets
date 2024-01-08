@@ -22,8 +22,8 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
     return notFound();
   }
 
-  //form action assumes that it will send form data, but we are sending a number. need to bind it so it's like a preloaded version 
-  const deleteSnippetAction = actions.deleteSnippet.bind(null, snippet.id)
+  //form action assumes that it will send form data, but we are sending a number. need to bind it so it's like a preloaded version
+  const deleteSnippetAction = actions.deleteSnippet.bind(null, snippet.id);
   return (
     <div>
       <div className="flex m-4 justify-between items-center">
@@ -35,7 +35,7 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
           >
             Edit
           </Link>
-          <form action = {deleteSnippetAction}>
+          <form action={deleteSnippetAction}>
             <button className="p-2 border rounded">Delete</button>
           </form>
         </div>
@@ -45,4 +45,16 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
       </pre>
     </div>
   );
+}
+
+//reach into db and get snippets, and then return an object for each one tha tlooks like {id: 2} {id: 3} etc.
+//when we run the build command, this is run automatically. you'll likely get an error because, remember, next expects string. our
+//ids are numbers!
+export async function generateStaticParams() {
+  const snippets = await db.snippet.findMany();
+  return snippets.map((snippet) => {
+    return {
+      id: snippet.id.toString(),
+    };
+  });
 }
