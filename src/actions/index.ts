@@ -64,7 +64,7 @@ export async function createSnippet(
     });
 
     //returns a snippet (const snippet, above) that also has an id prop. we aren't using snippet variable, so not necessary to store
-  } catch (err: unknown) {
+  } catch (err: any) {
     if (err instanceof Error) {
       return {
         message: err.message,
